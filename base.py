@@ -3,9 +3,10 @@ import os
 import sys
 import snowflake.connector
 from snowflake.connector.converter_null import SnowflakeNoConverterToPython
+import pandas as pd
 
 
-class PythonBase:
+class PythonSnowflake:
     def __init__(self, p_log_file_name = 'logs.log'):
         file_name = p_log_file_name
         if file_name is None:
@@ -40,6 +41,15 @@ class PythonBase:
         return conn
 
 
-    def do_work(self, conn):
-        print("Let's do some work!")
+    def execute_sql(self, conn, query, to_df = True):
+        try:
+            cursor = conn.cursor()
+            cursor.execute(query)
+            results = cursor.fetch_pandas_all() if to_df else cursor.fetchall()
+            print(f"Query Successful!")
+            return results
+        except snowflake.connector.errors.Error as e:
+            return f"Error while querying : {e}"
+
+
 
