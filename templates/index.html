@@ -5,22 +5,9 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
-    <h1>Snowflake Data Visualization</h1>
-
-    {% if chart %}
-    <div>
-        <div id="chart">{{ chart | safe }}</div>
-    </div>
-    {% endif %}
-
+    <h1>Welcome!</h1>
     {% if error_message %}
     <p>{{ error_message }}</p>
     {% endif %}
-
-    <script>
-        var chartData = {{ chart_data | safe }};
-        var chartDiv = document.getElementById('chart');
-        Plotly.newPlot(chartDiv, chartData.data, chartData.layout);
-    </script>
 </body>
 </html>

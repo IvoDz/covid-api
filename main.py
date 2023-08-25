@@ -2,7 +2,7 @@ import snowflake.connector
 import os
 import pandas as pd
 from snowflake.connector.secret_detector import SecretDetector
-from base import PythonSnowflake
+from python_snowflake import PythonSnowflake
 
 ps = PythonSnowflake()
 conn = ps.create_connection()

@@ -11,18 +11,18 @@ conn = ps.create_connection()
 
 # Route for the main page
 @app.route('/', methods=['GET'])
-def index():
-    df =  ps.execute_sql(conn, "SELECT * FROM WHO_DAILY_REPORT LIMIT 5 ")
-    if not df.empty:
-        trace = go.Bar(x=df['COUNTRY_REGION'], y=df['CASES_TOTAL'])
-        data = [trace]
-        layout = go.Layout(title='Snowflake Data Visualization')
-        fig = go.Figure(data=data, layout=layout)
-        chart = fig.to_html(full_html=False)
+def index();
+    return render_template('index.html')
 
-        return render_template('index.html', chart=chart)
-    else:
-        return render_template('index.html', error_message='No data found for the given query.')
+
+# df =  ps.execute_sql(conn, "SELECT * FROM WHO_DAILY_REPORT LIMIT 5 ")
+# if not df.empty:
+#     trace = go.Bar(x=df['COUNTRY_REGION'], y=df['CASES_TOTAL'])
+#     data = [trace]
+#     layout = go.Layout(title='Snowflake Data Visualization')
+#     fig = go.Figure(data=data, layout=layout)
+#     chart = fig.to_html(full_html=False)
+
 
 
 if __name__ == '__main__':
