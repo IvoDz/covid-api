@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>query result</title>
+</head>
+<body>
+    <h1>Query result : {{query}} </h1>
+    <form action="/execute-sql" method="GET">
+        <input type="submit" value="Query Again">
+    </form>
+    {{ df_html|safe }}
+</body>
+</html>

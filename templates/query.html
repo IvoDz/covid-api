@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SQL Query Form</title>
+</head>
+<body>
+    <h1>Execute SQL Query</h1>
+    <form action="/execute-sql" method="POST">
+        <label for="query">SQL Query:</label><br>
+        <textarea name="query" id="query" rows="4" cols="50">{{ latest_query }}</textarea><br>
+        <label for="to_df">Convert to DataFrame:</label>
+        <input type="checkbox" name="to_df" id="to_df" value="false"><br>
+        <label for="to_df">Show as formatted table:</label>
+        <input type="checkbox" name="pretty" id="pretty" value="false"><br>
+        <input type="submit" value="Execute">
+    </form>
+</body>
+</html>

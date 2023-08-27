@@ -1,10 +1,8 @@
 import logging
 import os
-import sys
 import snowflake.connector
 from snowflake.connector.converter_null import SnowflakeNoConverterToPython
 import pandas as pd
-
 
 class PythonSnowflake:
     def __init__(self, p_log_file_name = 'logs.log'):
@@ -45,9 +43,10 @@ class PythonSnowflake:
         try:
             cursor = conn.cursor()
             cursor.execute(query)
+            qid = cursor.sfqid
             results = cursor.fetch_pandas_all() if to_df else cursor.fetchall()
             print(f"Query Successful!")
-            return results
+            return results, qid
         except snowflake.connector.errors.Error as e:
             return f"Error while querying : {e}"
 
