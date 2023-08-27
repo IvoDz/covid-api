@@ -1,5 +1,4 @@
 from flask import Flask, request, jsonify, render_template, session, redirect
-from snowflake.connector.converter_null import SnowflakeNoConverterToPython
 import pandas as pd
 from python_snowflake import PythonSnowflake
 from pymongo import MongoClient
@@ -60,23 +59,3 @@ def send_feedback():
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-
-
-
-
-
-
-# 
-#@app.route('/visualize', methods=['POST'])
-#def generate_visualization():
-    #data = request.json
-    # Extract relevant data from the request and use Plotly to generate visualizations
-    # You can create various predefined visualization functions here.
-    # Example: bar chart, line chart, pie chart, etc.
-
-    # Return the visualization as JSON or an image file, depending on your needs.
-
-    #return jsonify({"visualization": "your_visualization_data_or_path"}), 200
-
-
