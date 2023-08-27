@@ -3,6 +3,7 @@ import pandas as pd
 from python_snowflake import PythonSnowflake
 from pymongo import MongoClient
 from feedback import Feedback
+from visuals import Visualizer
 
 app = Flask(__name__)
 ps = PythonSnowflake()
@@ -13,6 +14,8 @@ client = MongoClient()
 client = MongoClient("localhost", 27017)
 db = client.covid
 feedbacks = db["feedback"]
+
+visualizer = Visualizer()
 
 @app.route('/execute-sql', methods=['GET', 'POST'])
 def execute_sql():
@@ -55,6 +58,11 @@ def send_feedback():
 
     except Exception as e:
         return redirect(request.referrer), 500
+
+
+@app.route('/visualize/vaccines-total')
+def visualize():
+    pass
 
 
 if __name__ == "__main__":
