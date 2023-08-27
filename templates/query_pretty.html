@@ -1,13 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>query result</title>
+    <title>Query Result</title>
 </head>
 <body>
-    <h1>Query result : {{query}} </h1>
-    <form action="/execute-sql" method="GET">
-        <input type="submit" value="Query Again">
-    </form>
+    <h1>Query Result : {{ query }}</h1>
     {{ df_html|safe }}
+
+    <h2>Provide Feedback</h2>
+    <form action="/send_feedback" method="POST">
+        <table>
+            <tr>
+                <td><label for="name">Name:</label></td>
+                <td><input type="text" name="name" id="name" required></td>
+            </tr>
+            <tr>
+                <td><label for="comment">Comment:</label></td>
+                <td><textarea name="comment" id="comment"></textarea></td>
+            </tr>
+            <tr>
+                <td><label for="favorite">Favorite:</label></td>
+                <td><input type="checkbox" name="favorite" id="favorite"></td>
+            </tr>
+        </table>
+        <input type="submit" value="Submit Feedback">
+    </form>
+    
+    <form action="/execute-sql" method="GET">
+        <input type="submit" value="Query Again / Edit Query">
+    </form>
 </body>
 </html>
