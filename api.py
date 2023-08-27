@@ -6,6 +6,7 @@ from feedback import Feedback
 from visuals import Visualizer
 from flask_caching import Cache
 
+# Configuring app, caching, connecting to MongoDB, connecting to snowflake
 config = {
     "DEBUG": True,         
     "CACHE_TYPE": "SimpleCache",  
@@ -26,6 +27,14 @@ feedbacks = db["feedback"]
 
 visualizer = Visualizer(conn)
 
+# Route section - All routes and possible parameters are defined below
+
+"""
+/execute-sql
+GET - returns renders HTML form for passing parameters and entering query
+POST - parameters => to_df (bool, optional => default True), pretty (bool, optional)
+queries snowflake database, returns result as (data, status_code)
+"""
 @app.route('/execute-sql', methods=['GET', 'POST'])
 @cache.cached(timeout=30)
 def execute_sql():
@@ -50,7 +59,12 @@ def execute_sql():
         else :
             return jsonify({"result": result.to_dict()}), 200
     
-
+"""
+/send_feedback
+POST - parameters => user (str, required), timestamp (timestamp, required), 
+comment (str, non-required), favorite (bool, non-required)
+saves user entered feedback to database, redirects back
+"""
 @app.route('/send_feedback', methods=['POST'])
 @cache.cached(timeout=50)
 def send_feedback():
@@ -68,8 +82,11 @@ def send_feedback():
 
     except Exception as e:
         return redirect(request.referrer), 500
-
-
+"""
+/visualize/escalation/<c1>/<c2>/<c3>
+GET - takes 3 countries (required) as parameters,
+plots COVID-19 infection rates in 2020 as line chart
+"""
 @app.route('/visualize/escalation/<c1>/<c2>/<c3>', methods=['GET'])
 @cache.cached(timeout=50)
 def visualize_escalation(c1,c2,c3):
@@ -77,21 +94,35 @@ def visualize_escalation(c1,c2,c3):
     c2 = c2.capitalize() if c2 else None
     c3 = c3.capitalize() if c3 else None
 
+    if not all(isinstance(c, str) for c in [c1, c2, c3]):
+        return redirect(request.referrer), 500
+
     fig = visualizer.plot_3_escalation(c1, c2, c3)
     plot_div = fig.to_html(full_html=False)
     return render_template('visualization.html', plot_div=plot_div)
 
-
+"""
+/visualize/vaccine_ratio/<c1>
+GET - takes 1 country (required) as parameter,
+plots pie chart with vaccinated/non-vaccinated
+people ratio in country
+"""
 @app.route('/visualize/vaccine_ratio/<c1>', methods=['GET'])
 @cache.cached(timeout=50)
 def visualize_vaccines(c1):
-    c1 = c1.capitalize() if c1 else None
+    if not isinstance(c1, str):
+        return redirect(request.referrer), 500
 
     fig = visualizer.plot_country_vaccine_ratio(c1)
     plot_div = fig.to_html(full_html=False)
     return render_template('visualization.html', plot_div=plot_div)
 
-
+"""
+/visualize/european_latest/<c1>/<c2>/<c3>
+GET - takes no parameters,
+plots map of Europe with color scheme
+mapped to severity of latest known weekly cases
+"""
 @app.route('/visualize/european_latest', methods=['GET'])
 @cache.cached(timeout=50)
 def visualize_europe():
@@ -99,7 +130,12 @@ def visualize_europe():
     plot_div = fig.to_html(full_html=False)
     return render_template('visualization.html', plot_div=plot_div)
 
-
+"""
+/visualize/expectancy_mortality
+GET - takes no parameters, 
+plots scatter plot depicting correlation between
+life expectancy and COVID mortality in each country
+"""
 @app.route('/visualize/expectancy_mortality', methods=['GET'])
 @cache.cached(timeout=50)
 def mort_exp():
@@ -107,6 +143,12 @@ def mort_exp():
     plot_div = fig.to_html(full_html=False)
     return render_template('visualization.html', plot_div=plot_div)
 
+"""
+/visualize/happy_vac
+GET - takes no parameters, 
+plots scatter plot depicting correlation between
+happiness score and COVID vaccination rates in each country
+"""
 @app.route('/visualize/happy_vac', methods=['GET'])
 @cache.cached(timeout=50)
 def happiness_vaccs():

@@ -5,11 +5,17 @@ import plotly.graph_objs as go
 from sql_utils import vaccine_query, country_escalation, european_latest, life_exp, death_ratio, happy_df, countries_vacc
 
 ps = PythonSnowflake()
-
+"""
+class Visualizer
+Handles all visualization logic and chart generation with plotly
+Currently supports 5 predefined yet flexible charts that have parameter support
+Later on visible in visualization.html view
+"""
 class Visualizer:
     def __init__(self, conn):
         self.conn = conn
 
+    # Plots COVID-19 infection rates in 2020 as line chart (3 countries side by side -- Baltics by default)
     def plot_3_escalation(self, country1="Latvia", country2="Lithuania", country3="Estonia"):
         df1 = ps.execute_sql(self.conn, country_escalation(country1))[0]
         df2 = ps.execute_sql(self.conn, country_escalation(country2))[0]
@@ -17,14 +23,13 @@ class Visualizer:
 
         fig = px.line(title=f'Escalation of Cases - {country1}, {country2}, {country3}')
 
-        # Add traces for each country using px.line
         fig.add_trace(px.line(df1, x='DATE', y='CASES', title=country1).data[0])
         fig.add_trace(px.line(df2, x='DATE', y='CASES', title=country2).data[0])
         fig.add_trace(px.line(df3, x='DATE', y='CASES', title=country3).data[0])
 
         return fig
     
-
+    # plots pie chart with vaccinated/non-vaccinated people ratio in given country.
     def plot_country_vaccine_ratio(self, country):
         df = ps.execute_sql(self.conn, vaccine_query(country))[0]
 
@@ -39,6 +44,8 @@ class Visualizer:
 
         return fig
     
+    # Plots map of Europe with color scheme mapped to severity of latest known weekly cases
+    # where red - severe, white - no cases
     def european_latest_cases(self):
         df = ps.execute_sql(self.conn, european_latest())[0]
 
@@ -55,7 +62,7 @@ class Visualizer:
         
         return fig
         
-
+    # plots scatter plot depicting correlation between life expectancy and COVID mortality in each country
     def scatter_exp_mort(self):
         exp_df = life_exp()
         mortality_df = ps.execute_sql(self.conn, death_ratio())[0]
@@ -77,6 +84,7 @@ class Visualizer:
 
         return fig
     
+    # plots scatter plot depicting correlation between happiness score and COVID vaccination rates in each country
     def happy_vs_vaccinated(self):
         hap_df = happy_df()
         vaccines = ps.execute_sql(self.conn, countries_vacc())[0]

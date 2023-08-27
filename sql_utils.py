@@ -1,13 +1,20 @@
 import pandas as pd
 
+"""
+SQL helper queries and functions to convinient, one-line access within the main logic
+"""
+
+# Returns Life Expectancy dataset from Kaggle as dataframe
 def life_exp():
     df = pd.read_csv('exp_out.csv')
     return df
 
+# Returns Happiness Index dataset from Kaggle as dataframe
 def happy_df():
     df = pd.read_csv('happy_out.csv')
     return df
 
+# Query for extracting countries along with COVID mortality ratio
 def death_ratio():
     return """
             SELECT
@@ -29,10 +36,11 @@ def death_ratio():
             RATIO_DEATHS_PERC;
             """
 
-
+# Query for getting 2020 infection rate data for 1 country
 def country_escalation(country):
     return f"SELECT CASES, DATE FROM ECDC_GLOBAL WHERE COUNTRY_REGION = '{country}' ORDER BY DATE ASC"
 
+# Getting one country along with vaccinates/non-vaccinated ratios
 def vaccine_query(country):
     return f"""
                 WITH latest_data AS ( 
@@ -52,7 +60,7 @@ def vaccine_query(country):
                 ORDER BY PERC_VAC ASC;
            """
 
-
+# Getting European latest data for each country with weekly COVID cases
 def european_latest():
     return """
         SELECT 
@@ -69,7 +77,7 @@ def european_latest():
 ON e.COUNTRY_REGION = subquery.COUNTRY_REGION AND e.DATE = subquery.MaxDate;
         """
 
-
+# Similar to vaccine_query() but for all countries and only vaccinated ratio
 def countries_vacc():
     return """
             WITH latest_data AS ( 

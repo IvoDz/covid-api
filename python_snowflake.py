@@ -4,6 +4,14 @@ import snowflake.connector
 from snowflake.connector.converter_null import SnowflakeNoConverterToPython
 import pandas as pd
 
+
+"""
+class PythonSnowflake
+Establishes connection between Python and Snowflake.
+Enables logger, gets credentials from environmental variables
+for security. Allows for custom SQL querying 
+and optional result parsing to DF with exequte_sql method 
+"""
 class PythonSnowflake:
     def __init__(self, p_log_file_name = 'logs.log'):
         file_name = p_log_file_name
