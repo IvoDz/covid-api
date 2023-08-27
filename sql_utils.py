@@ -6,12 +6,12 @@ SQL helper queries and functions to convinient, one-line access within the main 
 
 # Returns Life Expectancy dataset from Kaggle as dataframe
 def life_exp():
-    df = pd.read_csv('exp_out.csv')
+    df = pd.read_csv('data/exp_out.csv')
     return df
 
 # Returns Happiness Index dataset from Kaggle as dataframe
 def happy_df():
-    df = pd.read_csv('happy_out.csv')
+    df = pd.read_csv('data/happy_out.csv')
     return df
 
 # Query for extracting countries along with COVID mortality ratio

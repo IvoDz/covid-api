@@ -7,7 +7,7 @@ from api import app, config
 cache = Cache()
 
 def main():
-    cache.init_app(app, config=your_cache_config)
+    cache.init_app(app, config=config)
 
     with app.app_context():
         cache.clear()

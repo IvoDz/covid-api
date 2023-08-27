@@ -90,12 +90,12 @@ plots COVID-19 infection rates in 2020 as line chart
 @app.route('/visualize/escalation/<c1>/<c2>/<c3>', methods=['GET'])
 @cache.cached(timeout=50)
 def visualize_escalation(c1,c2,c3):
+    if not all(isinstance(c, str) for c in [c1, c2, c3]):
+        return redirect(request.referrer), 500
+    
     c1 = c1.capitalize() if c1 else None
     c2 = c2.capitalize() if c2 else None
     c3 = c3.capitalize() if c3 else None
-
-    if not all(isinstance(c, str) for c in [c1, c2, c3]):
-        return redirect(request.referrer), 500
 
     fig = visualizer.plot_3_escalation(c1, c2, c3)
     plot_div = fig.to_html(full_html=False)
@@ -108,11 +108,11 @@ plots pie chart with vaccinated/non-vaccinated
 people ratio in country
 """
 @app.route('/visualize/vaccine_ratio/<c1>', methods=['GET'])
-@cache.cached(timeout=50)
 def visualize_vaccines(c1):
     if not isinstance(c1, str):
         return redirect(request.referrer), 500
-
+    
+    c1 = c1.capitalize()
     fig = visualizer.plot_country_vaccine_ratio(c1)
     plot_div = fig.to_html(full_html=False)
     return render_template('visualization.html', plot_div=plot_div)

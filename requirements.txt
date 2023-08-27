@@ -1,0 +1,7 @@
+Flask==2.2.2
+Flask_Caching==2.0.2
+pandas==2.0.3
+plotly==5.9.0
+pymongo==4.5.0
+pymongo.egg==info
+snowflake_connector_python==3.1.0

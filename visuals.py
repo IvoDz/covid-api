@@ -27,20 +27,20 @@ class Visualizer:
         fig.add_trace(px.line(df2, x='DATE', y='CASES', title=country2).data[0])
         fig.add_trace(px.line(df3, x='DATE', y='CASES', title=country3).data[0])
 
+        fig.update_layout(showlegend=True, title_x=0.5)
+
         return fig
     
     # plots pie chart with vaccinated/non-vaccinated people ratio in given country.
     def plot_country_vaccine_ratio(self, country):
         df = ps.execute_sql(self.conn, vaccine_query(country))[0]
-
         fig = px.pie(df, values=[df['PERC_VAC'].iloc[0], df['PERC_NOT_VAC'].iloc[0]], names=['Vaccinated', 'Not Vaccinated'],
                     color_discrete_map={'Vaccinated': 'green', 'Not Vaccinated': 'red'})
 
-        # Update the layout
         fig.update_traces(textinfo='percent+label', pull=[0, 0.1], marker=dict(line=dict(color='#000000', width=1)))
 
         country = country.capitalize()
-        fig.update_layout(title=f'Vaccination Status in {country}', showlegend=True)
+        fig.update_layout(title=f'Vaccination Status in {country}', showlegend=True, title_x=0.5)
 
         return fig
     
@@ -79,7 +79,8 @@ class Visualizer:
             xaxis_title='Death Ratio (%)',
             yaxis_title='Life Expectancy (years)',
             showlegend=False,
-            hovermode='closest'
+            hovermode='closest',
+            title_x=0.5
         )
 
         return fig
@@ -101,7 +102,8 @@ class Visualizer:
             xaxis_title='% Vaccinated',
             yaxis_title='Happiness Score',
             showlegend=False,
-            hovermode='closest'
+            hovermode='closest',
+            title_x=0.5
         )
 
         return fig
