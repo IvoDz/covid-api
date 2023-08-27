@@ -4,11 +4,20 @@ from python_snowflake import PythonSnowflake
 from pymongo import MongoClient
 from feedback import Feedback
 from visuals import Visualizer
+from flask_caching import Cache
+
+config = {
+    "DEBUG": True,         
+    "CACHE_TYPE": "SimpleCache",  
+    "CACHE_DEFAULT_TIMEOUT": 300
+}
 
 app = Flask(__name__)
 ps = PythonSnowflake()
 conn = ps.create_connection()
 app.secret_key = 'samplekey'
+app.config.from_mapping(config)
+cache = Cache(app)
 
 client = MongoClient()
 client = MongoClient("localhost", 27017)
@@ -18,6 +27,7 @@ feedbacks = db["feedback"]
 visualizer = Visualizer(conn)
 
 @app.route('/execute-sql', methods=['GET', 'POST'])
+@cache.cached(timeout=30)
 def execute_sql():
     if request.method == 'GET':
         latest_query = session.get('latest_query', '')
@@ -42,8 +52,8 @@ def execute_sql():
     
 
 @app.route('/send_feedback', methods=['POST'])
+@cache.cached(timeout=50)
 def send_feedback():
-    # Generating json doc to insert
     feedback = request.form 
     user = feedback.get('name', 'Not specified')
     comment = feedback.get('comment', None)
@@ -61,6 +71,7 @@ def send_feedback():
 
 
 @app.route('/visualize/escalation/<c1>/<c2>/<c3>', methods=['GET'])
+@cache.cached(timeout=50)
 def visualize_escalation(c1,c2,c3):
     c1 = c1.capitalize() if c1 else None
     c2 = c2.capitalize() if c2 else None
@@ -72,6 +83,7 @@ def visualize_escalation(c1,c2,c3):
 
 
 @app.route('/visualize/vaccine_ratio/<c1>', methods=['GET'])
+@cache.cached(timeout=50)
 def visualize_vaccines(c1):
     c1 = c1.capitalize() if c1 else None
 
@@ -81,6 +93,7 @@ def visualize_vaccines(c1):
 
 
 @app.route('/visualize/european_latest', methods=['GET'])
+@cache.cached(timeout=50)
 def visualize_europe():
     fig = visualizer.european_latest_cases()
     plot_div = fig.to_html(full_html=False)
@@ -88,12 +101,14 @@ def visualize_europe():
 
 
 @app.route('/visualize/expectancy_mortality', methods=['GET'])
+@cache.cached(timeout=50)
 def mort_exp():
     fig = visualizer.scatter_exp_mort()
     plot_div = fig.to_html(full_html=False)
     return render_template('visualization.html', plot_div=plot_div)
 
 @app.route('/visualize/happy_vac', methods=['GET'])
+@cache.cached(timeout=50)
 def happiness_vaccs():
     fig = visualizer.happy_vs_vaccinated()
     plot_div = fig.to_html(full_html=False)
