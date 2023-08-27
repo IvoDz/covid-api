@@ -15,7 +15,7 @@ client = MongoClient("localhost", 27017)
 db = client.covid
 feedbacks = db["feedback"]
 
-visualizer = Visualizer()
+visualizer = Visualizer(conn)
 
 @app.route('/execute-sql', methods=['GET', 'POST'])
 def execute_sql():
@@ -60,9 +60,44 @@ def send_feedback():
         return redirect(request.referrer), 500
 
 
-@app.route('/visualize/vaccines-total')
-def visualize():
-    pass
+@app.route('/visualize/escalation/<c1>/<c2>/<c3>', methods=['GET'])
+def visualize_escalation(c1,c2,c3):
+    c1 = c1.capitalize() if c1 else None
+    c2 = c2.capitalize() if c2 else None
+    c3 = c3.capitalize() if c3 else None
+
+    fig = visualizer.plot_3_escalation(c1, c2, c3)
+    plot_div = fig.to_html(full_html=False)
+    return render_template('visualization.html', plot_div=plot_div)
+
+
+@app.route('/visualize/vaccine_ratio/<c1>', methods=['GET'])
+def visualize_vaccines(c1):
+    c1 = c1.capitalize() if c1 else None
+
+    fig = visualizer.plot_country_vaccine_ratio(c1)
+    plot_div = fig.to_html(full_html=False)
+    return render_template('visualization.html', plot_div=plot_div)
+
+
+@app.route('/visualize/european_latest', methods=['GET'])
+def visualize_europe():
+    fig = visualizer.european_latest_cases()
+    plot_div = fig.to_html(full_html=False)
+    return render_template('visualization.html', plot_div=plot_div)
+
+
+@app.route('/visualize/expectancy_mortality', methods=['GET'])
+def mort_exp():
+    fig = visualizer.scatter_exp_mort()
+    plot_div = fig.to_html(full_html=False)
+    return render_template('visualization.html', plot_div=plot_div)
+
+@app.route('/visualize/happy_vac', methods=['GET'])
+def happiness_vaccs():
+    fig = visualizer.happy_vs_vaccinated()
+    plot_div = fig.to_html(full_html=False)
+    return render_template('visualization.html', plot_div=plot_div)
 
 
 if __name__ == "__main__":
