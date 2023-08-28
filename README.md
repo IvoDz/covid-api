@@ -7,7 +7,7 @@ This API enables users to query Snowflake database and generate dynamic visualiz
 * Users can choose from 5 visualization types and access them via predefined endpoints 
 * Feedback can be left about every resource (query result/visualizations)
 ### Installation Guide
-* Clone this repository [here](https://github.com/IvoDz/covid_api)
+* Clone this repository from [here](https://github.com/IvoDz/covid_api)
 * Make sure you have active Snowflake account, save credentials as environmental variables.
 * Make a new MongoDB database.
 * Run pip install -r requirements.txt to install dependencies.
@@ -25,7 +25,7 @@ This API enables users to query Snowflake database and generate dynamic visualiz
 | POST | /send_feedback | Saves your comment to the DB |
 | GET | /api/causes | To retrieve all causes on the platform
 | GET | /visualize/vaccine_ratio/<country> | plots pie chart with vaccinated/non-vaccinated people ratio in country |
-| GET | /visualize/european_latest/ | Shows interactive map of Europe with all recently available COVID cases |
+| GET | /visualize/european_latest | Shows interactive map of Europe with all recently available COVID cases |
 | GET | /visualize/escalation/<c1>/<c2>/<c3> | Plots daily COVID cases in 2020 for 3 countries side by side |
 | GET | /visualize/happy_vac | Plots scatter plot that shows relationship between happiness in the country and vaccination rate |
 | GET | /visualize/expectancy_mortality | Plots scatter plot that shows relationship between life expectancy in the country and COVID mortality rate |
