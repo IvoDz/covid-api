@@ -16,6 +16,7 @@ This API enables users to query Snowflake database and generate dynamic visualiz
 * You have to see this message, then you can access API on port 5000
 ![image](https://github.com/IvoDz/covid_api/assets/97388815/bf8fa965-59ee-43ff-ab57-fe2e9999db98)
 * You can access all endpoints on port 5000 by default.
+* Custom success/error messages also appear in the terminal for debugging and convenience
 * Use queries below to test functionality
 ### API Endpoints
 | Request | Endpoint | Action |
