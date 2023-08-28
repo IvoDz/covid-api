@@ -24,10 +24,9 @@ This API enables users to query Snowflake database and generate dynamic visualiz
 | GET | /execute-sql | To render html page with interactive form |
 | POST | /execute-sql | To execute query in Snowflake and get result in desired format |
 | POST | /send_feedback | Saves your comment to the DB |
-| GET | /api/causes | To retrieve all causes on the platform
-| GET | /visualize/vaccine_ratio/<country> | plots pie chart with vaccinated/non-vaccinated people ratio in country |
+| GET | /visualize/vaccine_ratio/_country_ | plots pie chart with vaccinated/non-vaccinated people ratio in country |
 | GET | /visualize/european_latest | Shows interactive map of Europe with all recently available COVID cases |
-| GET | /visualize/escalation/<c1>/<c2>/<c3> | Plots daily COVID cases in 2020 for 3 countries side by side |
+| GET | /visualize/escalation/_c1_/_c2_/_c3_ | Plots daily COVID cases in 2020 for 3 countries side by side |
 | GET | /visualize/happy_vac | Plots scatter plot that shows relationship between happiness in the country and vaccination rate |
 | GET | /visualize/expectancy_mortality | Plots scatter plot that shows relationship between life expectancy in the country and COVID mortality rate |
 
