@@ -1,7 +1,7 @@
 // README.md
 # covid_api
 ### Introduction
-This API enables users to query Snowflake database and generate dynamic visualizations.  
+This API enables users to query Snowflake database (COVID-19 Epidemiological Data by Starschema) and generate dynamic visualizations.  
 ### Key features
 * Users can make custom SQL queries and retrieve results from Snowflake either as Pandas Dataframe or JSON
 * Users can choose from 5 visualization types and access them via predefined endpoints 
