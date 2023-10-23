@@ -5,13 +5,14 @@ import plotly.graph_objs as go
 from sql_utils import vaccine_query, country_escalation, european_latest, life_exp, death_ratio, happy_df, countries_vacc
 
 ps = PythonSnowflake()
-"""
-class Visualizer
-Handles all visualization logic and chart generation with plotly
-Currently supports 5 predefined yet flexible charts that have parameter support
-Later on visible in visualization.html view
-"""
+
 class Visualizer:
+    """
+    class Visualizer
+    Handles all visualization logic and chart generation with plotly
+    Currently supports 5 predefined yet flexible charts that have parameter support
+    Later on visible in visualization.html view
+    """
     def __init__(self, conn):
         self.conn = conn
 

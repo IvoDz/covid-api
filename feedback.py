@@ -1,11 +1,12 @@
 import datetime
-"""
-class Feedback
-Adjusts MongoDB schema to python 
-Initialize with POST parameters to convert to dict,
-later on access with get_feedback for convenient inserting to DB 
-"""
+
 class Feedback:
+    """
+    class Feedback
+    Adjusts MongoDB schema to python 
+    Initialize with POST parameters to convert to dict,
+    later on access with get_feedback for convenient inserting to DB 
+    """
     def __init__(self, user, comm, favorite):
         self.feedback = {
             "user": user,
