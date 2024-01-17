@@ -1,23 +1,3 @@
-// README.md
-# covid_api
-### Introduction
-This API enables users to query Snowflake database (COVID-19 Epidemiological Data by Starschema) and generate dynamic visualizations.  
-### Key features
-* Users can make custom SQL queries and retrieve results from Snowflake either as Pandas Dataframe or JSON
-* Users can choose from 5 visualization types and access them via predefined endpoints 
-* Feedback can be left about every resource (query result/visualizations)
-### Installation Guide
-* Clone this repository from [here](https://github.com/IvoDz/covid_api)
-* Make sure you have active Snowflake account, save credentials as environmental variables.
-* Make a new MongoDB database.
-* Run pip install -r requirements.txt to install dependencies.
-### Usage
-* Navigate to project folder, run api.py file
-* You have to see this message, then you can access API on port 5000
-![image](https://github.com/IvoDz/covid_api/assets/97388815/bf8fa965-59ee-43ff-ab57-fe2e9999db98)
-* You can access all endpoints on port 5000 by default.
-* Custom success/error messages also appear in the terminal for debugging and convenience
-* Use queries below to test functionality
 ### API Endpoints
 | Request | Endpoint | Action |
 | --- | --- | --- |
